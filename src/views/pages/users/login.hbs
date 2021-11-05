@@ -1,0 +1,46 @@
+<div class="container p-4">
+    <div class="row mb-3">
+        <div class="col-lg-4 col-md-6 col-sm-8 col-8 mx-auto">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h3>Inicia sesión</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/login" method="post">
+                        <div class="input-group mb-3">
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                placeholder="E-Mail"
+                                class="form-control"
+                                value="{{ email }}"
+                                required
+                                autofocus
+                            />
+                        </div>
+                        <div class="input-group mb-3">
+                            <input
+                                type="password"
+                                name="password"
+                                id="password"
+                                placeholder="Password"
+                                class="form-control"
+                                value="{{ password }}"
+                                required
+                            />
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-8 col-8 mx-auto">
+            {{> messages }}
+        </div>
+    </div>
+</div>

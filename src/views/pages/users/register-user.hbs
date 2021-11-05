@@ -1,0 +1,78 @@
+<div class="container p-4">
+    <div class="row mb-3">
+        <div class="col-lg-4 col-md-6 col-sm-8 col-8 mx-auto">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h3>Registrar usuario</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/register-user" method="post">
+                        <div class="input-group mb-3">
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                placeholder="Nombre"
+                                class="form-control"
+                                value="{{ name }}"
+                                required
+                                autofocus
+                            />
+                        </div>
+                        <div class="input-group mb-3">
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                placeholder="E-Mail"
+                                class="form-control"
+                                value="{{ email }}"
+                                required
+                            />
+                        </div>
+                        <div class="input-group mb-3">
+                            <input
+                                type="password"
+                                name="password"
+                                id="password"
+                                placeholder="Password"
+                                class="form-control"
+                                value="{{ password }}"
+                                required
+                            />
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Registrarse</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{#if message_email }}
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-8 col-8 mx-auto">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message_email }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <script>
+                    document.querySelector("#email").focus();
+                </script>
+            </div>
+        </div>
+    {{/if }}
+    {{#if message_password }}
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-8 col-8 mx-auto">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message_password}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <script>
+                    document.querySelector("#password").focus();
+                </script>
+            </div>
+        </div>
+    {{/if }}
+</div>
