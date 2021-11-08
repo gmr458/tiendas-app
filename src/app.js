@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const path = require("path");
 const passport = require("passport");
 
+// Datos de conexion a la base de datos
 const MYSQL_HOST = process.env.MYSQL_HOST || "localhost";
 const MYSQL_USER = process.env.MYSQL_USER || "root";
 const MYSQL_PASSWORD = process.env.MYSQL_PASSWORD || "";
@@ -20,21 +21,29 @@ const databaseOptions = {
     database: MYSQL_DATABASE,
 };
 
+
+// Almacenar las sesiones en MySQL
 const sessionStore = new MySQLStore(databaseOptions);
 
 // Importacion de rutas
 const indexRoutes = require("./routes/index.routes");
-const userRoutes = require("./routes/users.routes");
+const usersRoutes = require("./routes/users.routes");
+const storesRoutes = require("./routes/stores.routes");
 
+// Inicializacion de Express
 const app = express();
+
+// Importación de Passport para la autenticación
 require("./lib/passport");
 
 // Puerto
 app.set("PORT", process.env.PORT || 3000);
 
-// Motor de plantilla
+// Configuración del directorio donde estaran las vistas
 app.set("views", path.join(__dirname, "views"));
 const dirViews = app.get("views");
+
+// Configuración del motor de plantilla
 app.engine(
     ".hbs",
     exphbs({
@@ -66,13 +75,15 @@ app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.warning = req.flash("warning");
     res.locals.error = req.flash("error");
-    res.locals.user = req.user || null;
+    res.locals.user = req.store || null;
+    res.locals.store = req.store || null;
     next();
 });
 
 // Uso de rutas
 app.use(indexRoutes);
-app.use(userRoutes);
+app.use(usersRoutes);
+app.use(storesRoutes);
 
 // Public
 app.use(express.static(path.join(__dirname, "public")));
