@@ -1,12 +1,13 @@
 <div class="container p-4">
     <div class="row mb-3">
-        <div class="col-lg-4 col-md-6 col-sm-8 col-8 mx-auto">
-            <div class="card text-center">
+        <div class="col-lg-5 col-md-6 col-sm-8 col-8 mx-auto">
+            <div class="card">
                 <div class="card-header">
-                    <h3>Registrar usuario</h3>
+                    <h3 class="text-center">Registrar usuario</h3>
                 </div>
                 <div class="card-body">
                     <form action="/register-user" method="post">
+                        <label class="label-form mb-2">Datos básicos:</label>
                         <div class="input-group mb-3">
                             <input
                                 type="text"
@@ -14,7 +15,7 @@
                                 id="name"
                                 placeholder="Nombre"
                                 class="form-control"
-                                value="{{ name }}"
+                                value="{{name}}"
                                 required
                                 autofocus
                             />
@@ -26,7 +27,7 @@
                                 id="email"
                                 placeholder="E-Mail"
                                 class="form-control"
-                                value="{{ email }}"
+                                value="{{email}}"
                                 required
                             />
                         </div>
@@ -37,10 +38,61 @@
                                 id="password"
                                 placeholder="Password"
                                 class="form-control"
-                                value="{{ password }}"
+                                value="{{password}}"
                                 required
                             />
                         </div>
+                        <hr />
+                        <label class="label-form mb-2">Datos de ubicación:</label>
+                        <div class="input-group mb-3">
+                            <input
+                                type="text"
+                                name="neighborhood"
+                                id="neighborhood"
+                                placeholder="Barrio"
+                                class="form-control"
+                                value="{{neighborhood}}"
+                                required
+                            />
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="row">
+                                <div class="col-4">
+                                    <input
+                                        type="number"
+                                        name="street"
+                                        id="street"
+                                        placeholder="Calle"
+                                        class="form-control"
+                                        value="{{street}}"
+                                        required
+                                    />
+                                </div>
+                                <div class="col-4">
+                                    <input
+                                        type="number"
+                                        name="avenue"
+                                        id="avenue"
+                                        placeholder="Carrera"
+                                        class="form-control"
+                                        value="{{avenue}}"
+                                        required
+                                    />
+                                </div>
+                                <div class="col-4">
+                                    <input
+                                        type="text"
+                                        name="number"
+                                        id="number"
+                                        placeholder="Número"
+                                        class="form-control"
+                                        value="{{number}}"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Registrarse</button>
                         </div>
@@ -49,11 +101,11 @@
             </div>
         </div>
     </div>
-    {{#if message_email }}
+    {{#if message_email}}
         <div class="row">
             <div class="col-lg-4 col-md-6 col-sm-8 col-8 mx-auto">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    {{ message_email }}
+                    {{message_email}}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <script>
@@ -61,12 +113,12 @@
                 </script>
             </div>
         </div>
-    {{/if }}
-    {{#if message_password }}
+    {{/if}}
+    {{#if message_password}}
         <div class="row">
             <div class="col-lg-4 col-md-6 col-sm-8 col-8 mx-auto">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    {{ message_password}}
+                    {{message_password}}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <script>
@@ -74,5 +126,5 @@
                 </script>
             </div>
         </div>
-    {{/if }}
+    {{/if}}
 </div>

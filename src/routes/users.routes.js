@@ -19,12 +19,12 @@ router.post(
     })
 );
 
-router.get("/register-user-form", hideLoginAndRegister, (req, res) => {
+router.get("/register-user-form", (req, res) => {
     res.render("pages/users/register-user");
 });
 
-router.post("/register-user", async (req, res) => {
-    const { name, email, password } = req.body;
+router.post("/register-user", hideLoginAndRegister, async (req, res) => {
+    const { name, email, password, neighborhood, street, avenue, number } = req.body;
     const existsEmail = await pool.query("SELECT * FROM user WHERE email = ?", [email]);
     if (existsEmail.length > 0) {
         return res.render("pages/users/register-user", {
@@ -46,6 +46,10 @@ router.post("/register-user", async (req, res) => {
         name,
         email,
         password,
+        neighborhood,
+        street,
+        avenue,
+        number,
     };
     newUser.password = await bcrypt.hash(password, 10);
     await pool.query("INSERT INTO user SET ?", [newUser]);
@@ -57,7 +61,7 @@ router.get("/profile", isLoggedIn, (req, res) => {
     res.render("pages/users/profile");
 });
 
-router.get("/logout", (req, res) => {
+router.get("/logout", isLoggedIn, (req, res) => {
     req.logout();
     res.redirect("/login-form");
 });
