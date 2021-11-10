@@ -7,27 +7,14 @@ const { isLoggedIn, hideLoginAndRegister } = require("../lib/auth");
 const router = Router();
 
 router.get("/register-user-form", (req, res) => {
-    res.render("pages/users/register-user");
+    res.render("pages/user/register");
 });
 
 router.post("/register-user", hideLoginAndRegister, async (req, res) => {
-    console.log(req.body);
-    const {
-        name,
-        email,
-        password,
-        neighborhood,
-        street,
-        avenue,
-        number,
-        role,
-    } = req.body;
-    const existsEmail = await pool.query(
-        "SELECT * FROM user WHERE email = ?",
-        [email]
-    );
+    const { name, email, password, neighborhood, street, avenue, number, role } = req.body;
+    const existsEmail = await pool.query("SELECT * FROM user WHERE email = ?", [email]);
     if (existsEmail.length > 0) {
-        return res.render("pages/users/register-user", {
+        return res.render("pages/user/register", {
             name,
             email: "",
             password,
@@ -40,7 +27,7 @@ router.post("/register-user", hideLoginAndRegister, async (req, res) => {
         });
     }
     if (password.length < 8) {
-        return res.render("pages/users/register-user", {
+        return res.render("pages/user/register", {
             name,
             email,
             password: "",
@@ -57,7 +44,7 @@ router.post("/register-user", hideLoginAndRegister, async (req, res) => {
         [neighborhood, street, avenue, number]
     );
     if (existsAddress.length > 0) {
-        return res.render("pages/users/register-user", {
+        return res.render("pages/user/register", {
             name,
             email,
             password,
@@ -85,13 +72,26 @@ router.post("/register-user", hideLoginAndRegister, async (req, res) => {
     res.redirect("/login-form");
 });
 
-router.get("/profile", isLoggedIn, (req, res) => {
-    res.render("pages/users/profile");
+router.get("/login-form", hideLoginAndRegister, (req, res) => {
+    res.render("pages/user/login");
 });
+
+router.post(
+    "/login",
+    passport.authenticate("local", {
+        successRedirect: "/profile",
+        failureRedirect: "/login-form",
+        failureFlash: true,
+    })
+);
 
 router.get("/logout", isLoggedIn, (req, res) => {
     req.logout();
     res.redirect("/login-form");
+});
+
+router.get("/profile", isLoggedIn, (req, res) => {
+    res.render("pages/user/profile");
 });
 
 module.exports = router;

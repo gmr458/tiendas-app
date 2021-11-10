@@ -15,12 +15,21 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 {{#if user}}
-                    <li class="nav-item" id="navItemSeeStores">
-                        <a class="nav-link" href="/see-stores">Ver tiendas</a>
+                    {{!-- Items cliente --}}
+                    <li class="nav-item" id="navItemShowStores">
+                        <a class="nav-link" href="/show-stores">Ver tiendas</a>
                     </li>
-                    <li class="nav-item" id="navItemSeeMyProducts">
-                        <a class="nav-link" href="/see-my-products">Mis Productos</a>
+                    {{!-- Items tienda --}}
+                    <li class="nav-item" id="navItemCreateProduct">
+                        <a class="nav-link" href="/create-product-form">Crear Producto</a>
                     </li>
+                    <li class="nav-item" id="navItemShowMyProducts">
+                        <a class="nav-link" href="/show-products">Productos</a>
+                    </li>
+                    <li class="nav-item" id="navItemShowOrders">
+                        <a class="nav-link" href="/show-orders">Pedidos</a>
+                    </li>
+                    {{!-- Items en comun --}}
                     <li class="nav-item">
                         <a class="nav-link" href="/profile">Perfil</a>
                     </li>
