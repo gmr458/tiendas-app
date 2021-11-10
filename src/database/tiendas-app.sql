@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 08-11-2021 a las 02:18:59
+-- Tiempo de generación: 10-11-2021 a las 21:47:36
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.11
 
@@ -20,6 +20,21 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `tiendas-app`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `product`
+--
+
+CREATE TABLE `product` (
+  `id` int(11) NOT NULL,
+  `id_store` int(11) NOT NULL,
+  `name` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `price` float NOT NULL,
+  `stock` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -47,12 +62,20 @@ CREATE TABLE `user` (
   `neighborhood` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
   `street` int(11) NOT NULL,
   `avenue` int(11) NOT NULL,
-  `number` varchar(30) COLLATE utf8_unicode_ci NOT NULL
+  `number` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `role` varchar(10) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `product`
+--
+ALTER TABLE `product`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_store` (`id_store`);
 
 --
 -- Indices de la tabla `sessions`
@@ -72,10 +95,26 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `product`
+--
+ALTER TABLE `product`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `product`
+--
+ALTER TABLE `product`
+  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`id_store`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
