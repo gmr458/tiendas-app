@@ -28,7 +28,6 @@ const sessionStore = new MySQLStore(databaseOptions);
 // Importacion de rutas
 const indexRoutes = require("./routes/index.routes");
 const usersRoutes = require("./routes/users.routes");
-const storesRoutes = require("./routes/stores.routes");
 
 // Inicializacion de Express
 const app = express();
@@ -83,7 +82,6 @@ app.use((req, res, next) => {
 // Uso de rutas
 app.use(indexRoutes);
 app.use(usersRoutes);
-app.use(storesRoutes);
 
 // Public
 app.use(express.static(path.join(__dirname, "public")));
