@@ -21,7 +21,6 @@ const databaseOptions = {
     database: MYSQL_DATABASE,
 };
 
-
 // Almacenar las sesiones en MySQL
 const sessionStore = new MySQLStore(databaseOptions);
 
@@ -74,8 +73,7 @@ app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.warning = req.flash("warning");
     res.locals.error = req.flash("error");
-    res.locals.user = req.store || null;
-    res.locals.store = req.store || null;
+    res.locals.user = req.user || null;
     next();
 });
 

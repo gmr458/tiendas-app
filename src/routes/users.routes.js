@@ -11,6 +11,7 @@ router.get("/register-user-form", (req, res) => {
 });
 
 router.post("/register-user", hideLoginAndRegister, async (req, res) => {
+    console.log(req.body);
     const {
         name,
         email,

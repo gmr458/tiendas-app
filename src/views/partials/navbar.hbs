@@ -15,8 +15,11 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 {{#if user}}
-                    <li class="nav-item">
+                    <li class="nav-item" id="navItemSeeStores">
                         <a class="nav-link" href="/see-stores">Ver tiendas</a>
+                    </li>
+                    <li class="nav-item" id="navItemSeeMyProducts">
+                        <a class="nav-link" href="/see-my-products">Mis Productos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/profile">Perfil</a>
@@ -29,10 +32,7 @@
                         <a class="nav-link" href="/login-form">Iniciar sesión</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/register-store-form">Registrar tienda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register-user-form">Registrar usuario</a>
+                        <a class="nav-link" href="/register-user-form">Registrarse</a>
                     </li>
                 {{/if }}
             </ul>

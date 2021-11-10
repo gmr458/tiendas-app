@@ -43,6 +43,18 @@
                         />
                     </div>
                     <div class="mb-3">
+                        <label for="role" class="form-label">Rol:</label>
+                        <input
+                            type="text"
+                            name="role"
+                            id="role"
+                            placeholder="Rol"
+                            class="form-control"
+                            value="{{user.role}}"
+                            disabled
+                        />
+                    </div>
+                    <div class="mb-3">
                         <label for="address" class="form-label">Dirección:</label>
                         <input
                             type="text"
@@ -59,3 +71,14 @@
         </div>
     </div>
 </div>
+
+<script>
+    const role = document.querySelector("#role");
+    if (role.value === "client") {
+        role.value = "Cliente";
+        document.querySelector("#navItemSeeMyProducts").remove();
+    } else {
+        role.value = "Tienda";
+        document.querySelector("#navItemSeeStores").remove();
+    }
+</script>
