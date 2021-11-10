@@ -26,7 +26,10 @@ router.post("/create-product", isLoggedIn, async (req, res) => {
             message_name: "Ya existe un producto con ese nombre",
         });
     }
-    const existsDescription = await pool.query("SELECT * FROM product WHERE id_store = ? AND description = ?", [id_store, description]);
+    const existsDescription = await pool.query("SELECT * FROM product WHERE id_store = ? AND description = ?", [
+        id_store,
+        description,
+    ]);
     if (existsDescription.length > 0) {
         return res.render("pages/store/create-product", {
             name,
@@ -66,10 +69,11 @@ router.post("/create-product", isLoggedIn, async (req, res) => {
     res.redirect("/create-product-form");
 });
 
-router.get("/show-products", isLoggedIn, (req, res) => {
+router.get("/show-products", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "store") {
-        res.render("pages/store/show-products");
+        const products = await pool.query("SELECT * FROM product WHERE id_store = ?", [req.user.id]);
+        res.render("pages/store/show-products", { products });
     } else {
         res.redirect("/profile");
     }
