@@ -1,0 +1,118 @@
+<div class="container p-4">
+    <div class="row mb-3">
+        <div class="col-lg-5 col-md-6 col-sm-8 col-8 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Editar producto</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/edit-product/{{product.id}}" method="post">
+                        <div class="input-group mb-3">
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                placeholder="Nombre del producto"
+                                class="form-control"
+                                value="{{product.name}}"
+                                required
+                                autofocus
+                            />
+                        </div>
+                        <div class="form-floating mb-3">
+                            <textarea
+                                name="description"
+                                id="description"
+                                rows="2"
+                                class="form-control w-100"
+                            >{{product.description}}</textarea>
+                            <label for="description">Descripcion del producto</label>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input
+                                type="number"
+                                name="price"
+                                id="price"
+                                placeholder="Precio"
+                                class="form-control"
+                                value="{{product.price}}"
+                                required
+                            />
+                        </div>
+                        <div class="input-group mb-3">
+                            <input
+                                type="number"
+                                name="stock"
+                                id="stock"
+                                placeholder="Cantidad"
+                                class="form-control"
+                                value="{{product.stock}}"
+                                required
+                            />
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Editar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{#if message_name}}
+        <div class="row">
+            <div class="col-lg-5 col-md-6 col-sm-8 col-8 mx-auto">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{message_name}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <script>
+                    document.querySelector("#name").focus();
+                </script>
+            </div>
+        </div>
+    {{/if}}
+    {{#if message_description}}
+        <div class="row">
+            <div class="col-lg-5 col-md-6 col-sm-8 col-8 mx-auto">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{message_description}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <script>
+                    document.querySelector("#description").focus();
+                </script>
+            </div>
+        </div>
+    {{/if}}
+    {{#if message_price}}
+        <div class="row">
+            <div class="col-lg-5 col-md-6 col-sm-8 col-8 mx-auto">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{message_price}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <script>
+                    document.querySelector("#price").focus();
+                </script>
+            </div>
+        </div>
+    {{/if}}
+    {{#if message_stock}}
+        <div class="row">
+            <div class="col-lg-5 col-md-6 col-sm-8 col-8 mx-auto">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{message_stock}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <script>
+                    document.querySelector("#stock").focus();
+                </script>
+            </div>
+        </div>
+    {{/if}}
+    <div class="row">
+        <div class="col-lg-5 col-md-6 col-sm-8 col-8 mx-auto">
+            {{> messages }}
+        </div>
+    </div>
+</div>
