@@ -25,13 +25,13 @@
                                         <div class="row">
                                             <div class="col">
                                                 <a href="/edit-product-form/{{id}}">
-                                                    <button class="btn btn-primary">
+                                                    <button class="btn btn-primary" >
                                                         <i class="bi bi-pencil-square"></i>
                                                     </button>
                                                 </a>
                                             </div>
                                             <div class="col">
-                                                <form action="/delete-product/{{id}}" method="post" class="my-auto">
+                                                <form action="/delete-product/{{id}}" method="post" class="my-auto" onsubmit="return confirm('¿Estas seguro que quires eliminar este producto?');">
                                                     <button class="btn btn-danger">
                                                         <i class="bi bi-trash"></i>
                                                     </button>

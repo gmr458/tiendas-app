@@ -85,7 +85,13 @@ router.get("/edit-product-form/:id", isLoggedIn, async (req, res) => {
     if (role === "store") {
         const { id } = req.params;
         const product = await pool.query("SELECT * FROM product WHERE id = ? AND id_store = ?", [id, id_store]);
-        res.render("pages/store/edit-product", { product: product[0] });
+        res.render("pages/store/edit-product", {
+            id: product[0].id,
+            name: product[0].name,
+            description: product[0].description,
+            price: product[0].price,
+            stock: product[0].stock,
+        });
     } else {
         res.redirect("/profile");
     }
@@ -95,9 +101,14 @@ router.post("/edit-product/:id", isLoggedIn, async (req, res) => {
     const { name, description, price, stock } = req.body;
     const { id } = req.params;
     const id_store = req.user.id;
-    const existsName = await pool.query("SELECT * FROM product WHERE id <> ? AND id_store = ? AND name = ?", [id, id_store, name]);
+    const existsName = await pool.query("SELECT * FROM product WHERE id <> ? AND id_store = ? AND name = ?", [
+        id,
+        id_store,
+        name,
+    ]);
     if (existsName.length > 0) {
-        return res.render("pages/store/create-product", {
+        return res.render("pages/store/edit-product", {
+            id,
             name: "",
             description,
             price,
@@ -105,13 +116,13 @@ router.post("/edit-product/:id", isLoggedIn, async (req, res) => {
             message_name: "Ya existe un producto con ese nombre",
         });
     }
-    const existsDescription = await pool.query("SELECT * FROM product WHERE id <> ? AND id_store = ? AND description = ?", [
-        id,
-        id_store,
-        description,
-    ]);
+    const existsDescription = await pool.query(
+        "SELECT * FROM product WHERE id <> ? AND id_store = ? AND description = ?",
+        [id, id_store, description]
+    );
     if (existsDescription.length > 0) {
-        return res.render("pages/store/create-product", {
+        return res.render("pages/store/edit-product", {
+            id,
             name,
             description: "",
             price,
@@ -120,7 +131,8 @@ router.post("/edit-product/:id", isLoggedIn, async (req, res) => {
         });
     }
     if (parseFloat(price) <= 0) {
-        return res.render("pages/store/create-product", {
+        return res.render("pages/store/edit-product", {
+            id,
             name,
             description,
             price: "",
@@ -129,7 +141,8 @@ router.post("/edit-product/:id", isLoggedIn, async (req, res) => {
         });
     }
     if (parseInt(stock) < 0) {
-        return res.render("pages/store/create-product", {
+        return res.render("pages/store/edit-product", {
+            id,
             name,
             description,
             price,
@@ -138,7 +151,6 @@ router.post("/edit-product/:id", isLoggedIn, async (req, res) => {
         });
     }
     const newDataProduct = {
-        id_store,
         name,
         description,
         price,
@@ -146,6 +158,14 @@ router.post("/edit-product/:id", isLoggedIn, async (req, res) => {
     };
     await pool.query("UPDATE product SET ? WHERE id = ? and id_store = ?", [newDataProduct, id, id_store]);
     req.flash("success", "Producto actualizado");
+    res.redirect("/show-products");
+});
+
+router.post("/delete-product/:id", isLoggedIn, async (req, res) => {
+    const { id } = req.params;
+    const id_store = req.user.id;
+    await pool.query("DELETE FROM product WHERE id = ? AND id_store = ?", [id, id_store]);
+    req.flash("success", "Producto eliminado");
     res.redirect("/show-products");
 });
 
