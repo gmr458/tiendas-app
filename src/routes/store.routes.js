@@ -169,10 +169,11 @@ router.post("/delete-product/:id", isLoggedIn, async (req, res) => {
     res.redirect("/show-products");
 });
 
-router.get("/show-orders", isLoggedIn, (req, res) => {
+router.get("/show-sales", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "store") {
-        res.render("pages/store/show-orders");
+        const sales = await pool.query("SELECT * FROM sale WHERE id_store = ?", [req.user.id]);
+        res.render("pages/store/show-sales", { sales });
     } else {
         res.redirect("/profile");
     }
