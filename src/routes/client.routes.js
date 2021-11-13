@@ -86,7 +86,8 @@ router.post("/create-sale/:idStore/:idProduct", isLoggedIn, async (req, res) => 
             idProduct,
             idStore,
         ]);
-        res.send("ok");
+        req.flash("success", "Producto añadido");
+        res.redirect("/show-products-store/" + idStore);
     } else {
         res.redirect("/profile");
     }
