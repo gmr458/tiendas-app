@@ -179,4 +179,43 @@ router.get("/show-sales", isLoggedIn, async (req, res) => {
     }
 });
 
+router.get("/view-details-sale/:id", isLoggedIn, async (req, res) => {
+    const { role } = req.user;
+    if (role === "store") {
+        const sale = await pool.query("SELECT * FROM sale WHERE id = ?", [req.params.id]);
+        const dataClient = await pool.query("SELECT * FROM user WHERE id = ?", [sale[0].id_client]);
+        const productsSale = await pool.query("SELECT * FROM sale_product WHERE id_sale = ?", [sale[0].id]);
+        let products = [];
+        for (let i = 0; i < productsSale.length; i++) {
+            const productFromDb = await pool.query("SELECT * FROM product WHERE id = ?", [productsSale[i].id_product]);
+            const product = {
+                id: productFromDb[0].id,
+                id_store: productFromDb[0].id_store,
+                name: productFromDb[0].name,
+                description: productFromDb[0].description,
+                unitPrice: productFromDb[0].price,
+                stock: productFromDb[0].stock,
+                quantity: productsSale[i].quantity,
+                totalPrice: productsSale[i].price,
+            };
+            products.push(product);
+        }
+        res.render("pages/store/view-details-sale", { sale: sale[0], products, client: dataClient[0] });
+    } else {
+        res.redirect("/profile");
+    }
+});
+
+router.post("/acept-sale/:idSale", isLoggedIn, async (req, res) => {
+    const { role } = req.user;
+    if (role === "store") {
+        const { idSale } = req.params;
+        await pool.query("UPDATE sale SET state = ? WHERE id = ?", [1, idSale]);
+        req.flash("success", "Venta aceptada");
+        res.redirect("/view-details-sale/" + idSale);
+    } else {
+        res.redirect("/profile");
+    }
+})
+
 module.exports = router;

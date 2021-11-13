@@ -1,0 +1,66 @@
+<div class="container p-4">
+    <div class="row mb-3">
+        <div class="col">
+            <div class="card rounded-3">
+                <div class="card-header">
+                    <h2 class="text-center">Pedido</h2>
+                    <h4 class="text-center">Precio total pedido ${{sale.total_price}}</h4>
+                    <h5 class="text-center">Nombre cliente: {{client.name}}</h5>
+                    <h5 class="text-center">Barrio: {{client.neighborhood}}</h5>
+                    <h5 class="text-center">Dirección cliente: Cl. {{client.street}}, Cra. {{client.avenue}} #{{client.number}}</h5>
+                    <h5 class="text-center" id="state">Estado: {{sale.state}}</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover m-0 text-center">
+                        <thead>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Precio unitario</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Precio total</th>
+                        </thead>
+                        <tbody>
+                            {{#each products}}
+                                <tr>
+                                    <td>{{name}}</td>
+                                    <td>${{unitPrice}}</td>
+                                    <td>{{quantity}}</td>
+                                    <td>${{totalPrice}}</td>
+                                </tr>
+                            {{else}}
+                                <tr>
+                                    <td colspan="4">
+                                        <h2>No hay productos</h2>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                            <tr id="buttonAcept">
+                                <td colspan="4">
+                                    <form action="/acept-sale/{{sale.id}}" method="post">
+                                        <button type="submit" class="btn btn-primary">
+                                            Aceptar pedido
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5 col-md-6 col-sm-8 col-8 mx-auto">
+            {{> messages }}
+        </div>
+    </div>
+</div>
+
+<script>
+    const state = document.getElementById('state');
+    if (state.textContent === "Estado: 0") {
+        state.textContent = "Sin Aceptar"
+    } else {
+        state.textContent = "Aceptado"
+        document.getElementById('buttonAcept').remove();
+    }
+</script>

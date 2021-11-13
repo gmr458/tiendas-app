@@ -5,7 +5,7 @@
                 <div class="card text-center m-auto" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-text">Precio total: ${{total_price}}</h5>
-                        <p class="card-text" id="state">Estado: {{state}}</p>
+                        <p class="card-text estado">Estado: {{state}}</p>
                         <a href="/view-details-sale/{{id}}">
                             <button class="btn btn-primary">Ver detalles</button>
                         </a>
@@ -19,8 +19,14 @@
 </div>
 
 <script>
-    const state = document.getElementById('state'); if (state.value = "Estado: 0") { state.textContent = "Sin Aceptar" }
-    else { state.textContent = "Aceptado" }
+    const states = document.getElementsByClassName('estado');
+    for (let state of states) {
+        if (state.textContent === "Estado: 0") {
+            state.textContent = "Estado: Pendiente";
+        } else {
+            state.textContent = "Estado: Aceptado";
+        }
+    }
 </script>
 
 <script src="/js/show-sales.js"></script>
