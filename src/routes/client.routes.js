@@ -93,6 +93,28 @@ router.post("/create-sale/:idStore/:idProduct", isLoggedIn, async (req, res) => 
     }
 });
 
+router.get("/all-products/:idStore", isLoggedIn, async (req, res) => {
+    const { role } = req.user;
+    if (role === "client") {
+        const { idStore } = req.params;
+        const products = await pool.query("SELECT * FROM product WHERE id_store = ?", [idStore]);
+        res.status(200).json(products);
+    } else {
+        res.redirect("/profile");
+    }
+})
+
+router.get("/make-sale/:idStore", isLoggedIn, async (req, res) => {
+    const { role } = req.user;
+    if (role === "client") {
+        const { idStore } = req.params;
+        const store = await pool.query("SELECT * FROM user WHERE id = ?", [idStore]);
+        res.render("pages/client/make-sale", { store: store[0] });
+    } else {
+        res.redirect("/profile");
+    }
+});
+
 router.get("/my-sale", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "client") {

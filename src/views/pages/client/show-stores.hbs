@@ -7,11 +7,12 @@
                         <h5 class="card-title">{{name}}</h5>
                         <p class="card-text">Cl. {{street}}, Cra. {{avenue}} #{{number}}</p>
                         <a href="/show-products-store/{{id}}" class="btn btn-primary">Ver productos</a>
+                        <a href="/make-sale/{{id}}" class="btn btn-primary">Hacer pedido</a>
                     </div>
                 </div>
             </div>
         {{else}}
-            <h2>No hay productos</h2>
+            <h2>No hay tiendas</h2>
         {{/each}}
     </div>
     <div class="row">

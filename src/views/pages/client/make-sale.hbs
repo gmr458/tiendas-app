@@ -1,0 +1,62 @@
+<div class="container p-4">
+    <div class="row mb-4">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Crea un pedido</h3>
+                </div>
+                <div class="card-body">
+                    <label for="product" class="label-form">Selecciona un producto</label>
+                    <select
+                        class="form-select mb-3"
+                        aria-label="Default select example"
+                        name="product"
+                        id="product"
+                        required
+                    >
+                        <option value="default" selected>Escoge un producto</option>
+                    </select>
+                    <label for="quantity" class="label-form">Cantidad</label>
+                    <input type="number" name="quantity" id="quantity" class="form-control mb-3" required />
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary mb-3" id="buttonAddProducto" onclick="addProdut()">
+                            Añadir
+                        </button>
+                    </div>
+                    <hr />
+                    <label for="totalPrice" class="label-form">Precio total:</label>
+                    <input type="text" name="totalPrice" id="totalPrice" class="form-control mb-3" />
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-success" id="buttonConfirmSale" onclick="confirmSale()">
+                            Confirmar pedido
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>{{store.name}}</h4>
+                    <p style="display: none;" id="idStore">{{store.id}}</p>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover text-center" id="table-calculos">
+                        <thead>
+                            <tr>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Precio unidad</th>
+                                <th scope="col">Precio total</th>
+                                <th scope="col">Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rows"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/make-sale.js"></script>
