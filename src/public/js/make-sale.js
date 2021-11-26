@@ -115,3 +115,38 @@ if (localStorage.getItem("listSale") === null) {
 } else {
     fullListSale();
 }
+
+function confirmSale() {
+    const listSale = JSON.parse(localStorage.getItem("listSale"));
+    const totalPrice = parseFloat(document.getElementById("totalPrice").value);
+    const idStore = document.getElementById("idStore").textContent;
+    const idClient = document.getElementById("idClient").textContent;
+    const saleAndProducts = {
+        sale: {
+            id_client: idClient,
+            id_store: idStore,
+            total_price: totalPrice,
+            status: 0,
+        },
+        products: listSale,
+    };
+    fetch("/save-sale", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(saleAndProducts),
+    }).then((response) => {
+        if (response.status === 200) {
+            alert("Venta realizada con éxito");
+            localStorage.setItem("listSale", JSON.stringify([]));
+            document.getElementById("totalPrice").value = 0;
+            fullListSale();
+        } else {
+            alert("Error al realizar la venta");
+            localStorage.setItem("listSale", JSON.stringify([]));
+            document.getElementById("totalPrice").value = 0;
+            fullListSale();
+        }
+    });
+}

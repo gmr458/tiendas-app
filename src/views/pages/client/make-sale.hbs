@@ -25,7 +25,7 @@
                     </div>
                     <hr />
                     <label for="totalPrice" class="label-form">Precio total:</label>
-                    <input type="text" name="totalPrice" id="totalPrice" class="form-control mb-3" />
+                    <input type="text" name="totalPrice" id="totalPrice" class="form-control mb-3" disabled />
                     <div class="d-grid gap-2">
                         <button class="btn btn-success" id="buttonConfirmSale" onclick="confirmSale()">
                             Confirmar pedido
@@ -39,6 +39,7 @@
                 <div class="card-header">
                     <h4>{{store.name}}</h4>
                     <p style="display: none;" id="idStore">{{store.id}}</p>
+                    <p style="display: none;" id="idClient">{{client}}</p>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover text-center" id="table-calculos">

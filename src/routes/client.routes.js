@@ -102,14 +102,38 @@ router.get("/all-products/:idStore", isLoggedIn, async (req, res) => {
     } else {
         res.redirect("/profile");
     }
-})
+});
 
-router.get("/make-sale/:idStore", isLoggedIn, async (req, res) => {
+router.get("/render-form-sale/:idStore", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "client") {
         const { idStore } = req.params;
         const store = await pool.query("SELECT * FROM user WHERE id = ?", [idStore]);
-        res.render("pages/client/make-sale", { store: store[0] });
+        res.render("pages/client/make-sale", { store: store[0], client: req.user.id });
+    } else {
+        res.redirect("/profile");
+    }
+});
+
+router.post("/save-sale", isLoggedIn, async (req, res) => {
+    const { role } = req.user;
+    if (role === "client") {
+        try {
+            const { insertId } = await pool.query("INSERT INTO sale SET ?", [req.body.sale]);
+            for (const product of req.body.products) {
+                const saleProduct = {
+                    id_sale: insertId,
+                    id_product: product.id,
+                    quantity: product.quantity,
+                    price: product.totalPrice,
+                };
+                await pool.query("INSERT INTO sale_product SET ?", [saleProduct]);
+            }
+            return res.status(200).json({ message: "Sale saved" });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Error saving sale" });
+        }
     } else {
         res.redirect("/profile");
     }
@@ -118,7 +142,7 @@ router.get("/make-sale/:idStore", isLoggedIn, async (req, res) => {
 router.get("/my-sale", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "client") {
-        const mySale = await pool.query("SELECT * FROM sale WHERE id_client = ? AND state = ?", [req.user.id, 0]);
+        const mySale = await pool.query("SELECT * FROM sale WHERE id_client = ?", [req.user.id]);
         if (mySale.length > 0) {
             const productsMySale = await pool.query("SELECT * FROM sale_product WHERE id_sale = ?", [mySale[0].id]);
             let products = [];
