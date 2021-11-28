@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 13-11-2021 a las 03:34:26
+-- Tiempo de generación: 28-11-2021 a las 01:06:36
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.11
 
@@ -33,19 +33,10 @@ CREATE TABLE `product` (
   `name` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `price` float NOT NULL,
-  `stock` int(11) NOT NULL
+  `stock` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `product`
---
-
-INSERT INTO `product` (`id`, `id_store`, `name`, `description`, `price`, `stock`) VALUES
-(1, 3, 'Colgate Total 12', 'Pasta la limpiar los dientes', 2500, 539),
-(9, 3, 'Libreta grande', 'Útil escolar', 3000, 98),
-(10, 4, 'Manzana', 'Fruta', 500, 1000),
-(11, 3, 'Cepillo de dientes niño', 'Aseo personal', 1500, 797),
-(14, 3, 'Arroz Diana', 'Arroz blanco 1 Libra', 2000, 787);
 
 -- --------------------------------------------------------
 
@@ -58,17 +49,10 @@ CREATE TABLE `sale` (
   `id_client` int(11) NOT NULL,
   `id_store` int(11) NOT NULL,
   `total_price` float NOT NULL DEFAULT 0,
-  `state` tinyint(1) NOT NULL
+  `status` tinyint(1) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `sale`
---
-
-INSERT INTO `sale` (`id`, `id_client`, `id_store`, `total_price`, `state`) VALUES
-(6, 2, 3, 14000, 1),
-(7, 8, 3, 10000, 1),
-(8, 2, 3, 8000, 1);
 
 -- --------------------------------------------------------
 
@@ -82,44 +66,6 @@ CREATE TABLE `sale_product` (
   `quantity` int(11) NOT NULL,
   `price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `sale_product`
---
-
-INSERT INTO `sale_product` (`id_sale`, `id_product`, `quantity`, `price`) VALUES
-(6, 1, 1, 2500),
-(6, 9, 1, 3000),
-(6, 11, 3, 4500),
-(6, 14, 2, 4000),
-(7, 1, 4, 10000),
-(8, 1, 2, 5000),
-(8, 9, 1, 3000);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `sessions`
---
-
-CREATE TABLE `sessions` (
-  `session_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `expires` int(11) UNSIGNED NOT NULL,
-  `data` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `sessions`
---
-
-INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('4aoLopj6Pqgr-alO0eg7yOvsUDMVZd-k', 1636836412, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{}}'),
-('GNvTPYJUWsgd_HodbunqpWmg5h_bR6m3', 1636856964, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"passport\":{\"user\":3}}'),
-('GxfZXNo2EjRWR31i53iyzKC41LnzkepY', 1636836522, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{}}'),
-('IGlPQjFLqTI6VE9LEFolJWI5iK4xboHa', 1636836519, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{}}'),
-('PeY4VJIpSmZ4nsrWll9kIl9cjANU5Q5F', 1636836516, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{}}'),
-('Rwfo58Apu9wGlv2us7nmDqyWO0wyDwnK', 1636836523, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{}}'),
-('iqVGvaIdvgxRCrjN1ht8vVlw_r5RBc8-', 1636836521, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{}}');
 
 -- --------------------------------------------------------
 
@@ -136,21 +82,10 @@ CREATE TABLE `user` (
   `street` int(11) NOT NULL,
   `avenue` int(11) NOT NULL,
   `number` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  `role` varchar(10) COLLATE utf8_unicode_ci NOT NULL
+  `role` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `user`
---
-
-INSERT INTO `user` (`id`, `name`, `email`, `password`, `neighborhood`, `street`, `avenue`, `number`, `role`) VALUES
-(2, 'German David', 'german@gmail.com', '$2b$10$sGhZC9.zSKmsW4HLrPqgP.KQvycKZXtcwzM32mItxSxihvp7EFs.u', 'Cruz de Mayo', 14, 25, '25-131', 'client'),
-(3, 'Prueba Uno', 'prueba1@gmail.com', '$2b$10$TQXgy/JLS.YJGSjKp3Ib6.JgmJlfGeTSbzZMCg4Rouh7809IM1YLe', 'Barrio Prueba Uno', 89, 21, '32-823', 'store'),
-(4, 'Tienda Uno', 'tienda1@gmail.com', '$2b$10$J1BFNiCfXVxX/K7y19quzueuLqzH4LrlVVdq/rVyWf8jZjsRW/XCu', 'El Prado', 100, 70, '23-322', 'store'),
-(5, 'Tienda Dos', 'tienda2@gmail.com', '$2b$10$KnAFOfdzWuszFnQ4zozIce6fUk1o637dj8D5ajtc0bhw0tVO3E//C', 'Barrio Dos', 68, 38, '389-81', 'store'),
-(6, 'Tienda Cuatro', 'tienda4@gmail.com', '$2b$10$ZjMDdE3XMp619202KSXYQOpDk722OcBI2gNy.ICjBHCPVgb4jo3Ti', 'Barrio Cuatro', 32, 4, '32-871', 'store'),
-(7, 'Tienda Cinco', 'tienda5@gmail.com', '$2b$10$gwpQqs4YzxsuOQIvUutmoeWCBLZXekkPXT9P6XEnTPwV3rO/jAinu', 'Barrio Cinco', 89, 21, '21-731', 'store'),
-(8, 'Carlos Martinez', 'carlos@gmail.com', '$2b$10$uPNeOsLNP5J/pAK41TyMb.tuEk5n.CsnzwoeVYQzChWeV/3U2XVx.', 'El Prado', 70, 35, '35-171', 'client');
 
 --
 -- Índices para tablas volcadas
@@ -199,19 +134,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT de la tabla `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `sale`
 --
 ALTER TABLE `sale`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas
