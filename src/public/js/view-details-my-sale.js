@@ -3,7 +3,6 @@ const URL_PRODUCTS = `/details-my-sale/${idSale}`;
 fetch(URL_PRODUCTS)
     .then((response) => response.json())
     .then((data) => {
-        console.log(data)
         document.getElementById("totalPriceSale").textContent = `Precio total: $${data.sale.total_price}`;
         let status = "Aceptado";
         if (data.sale.status === 0) {

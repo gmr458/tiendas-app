@@ -1,3 +1,6 @@
+let link = document.querySelector("#navLinkViewMySales");
+link.classList.add("active");
+
 const URL_MY_SALES = "/my-sales";
 fetch(URL_MY_SALES)
     .then((response) => response.json())
@@ -5,7 +8,6 @@ fetch(URL_MY_SALES)
         let tbody = document.getElementById("rows");
         tbody.textContent = "";
         for (let sale of sales) {
-            console.log(sale);
             let tr = document.createElement("tr");
             tbody.appendChild(tr);
 

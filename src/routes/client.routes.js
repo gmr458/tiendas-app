@@ -19,7 +19,6 @@ router.get("/show-products-store/:id", isLoggedIn, async (req, res) => {
     if (role === "client") {
         const products = await pool.query("SELECT * FROM product WHERE id_store = ?", [req.params.id]);
         const nameIdStore = await pool.query("SELECT id, name FROM user WHERE id = ?", [req.params.id]);
-        console.log(nameIdStore);
         res.render("pages/client/show-products-store", {
             products,
             nameStore: nameIdStore[0].name,
@@ -42,7 +41,6 @@ router.post("/create-sale/:idStore/:idProduct", isLoggedIn, async (req, res) => 
             state: 0,
         };
         const pedidoPendiente = await pool.query("SELECT * FROM sale WHERE state = ? AND id_client = ?", [0, idClient]);
-        console.log(`pedido pendiente: ${pedidoPendiente}`);
         let resultSaleOne;
         let resultSaleTwo;
         if (pedidoPendiente.length === 0) {
@@ -113,6 +111,11 @@ router.get("/all-products/:idStore", isLoggedIn, async (req, res) => {
 router.get("/render-form-sale/:idStore", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "client") {
+        const pendingPurchase = await pool.query("SELECT * FROM sale WHERE id_client = ? AND status = ?", [req.user.id, 0]);
+        if (pendingPurchase.length > 0) {
+            req.flash("error", "Ya tienes un pedido pendiente");
+            return res.redirect("/show-stores");
+        }
         const { idStore } = req.params;
         const store = await pool.query("SELECT * FROM user WHERE id = ?", [idStore]);
         res.render("pages/client/make-sale", { store: store[0], client: req.user.id });
@@ -148,10 +151,6 @@ router.post("/save-sale", isLoggedIn, async (req, res) => {
 router.get("/view-my-sales", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "client") {
-        // const sales = await pool.query(
-        //     "SELECT sale.*, user.name store_name FROM sale JOIN user ON sale.id_store = user.id WHERE id_client = ?",
-        //     [req.user.id]
-        // );
         res.render("pages/client/view-my-sales");
     } else {
         res.redirect("/profile");
@@ -165,7 +164,6 @@ router.get("/my-sales", isLoggedIn, async (req, res) => {
             "SELECT sale.*, user.name store_name FROM sale JOIN user ON sale.id_store = user.id WHERE id_client = ?",
             [req.user.id]
         );
-        console.log(sales);
         return res.status(200).json(sales);
     } else {
         res.redirect("/profile");
@@ -195,9 +193,6 @@ router.get("/my-sale", isLoggedIn, async (req, res) => {
                 };
                 products.push(product);
             }
-            console.log(mySale);
-            console.log(productsMySale);
-            console.log(products);
             res.render("pages/client/my-sale", { mySale: mySale[0], products });
         } else {
             req.flash("error", "No tienes ningún pedido pendiente");
@@ -211,25 +206,6 @@ router.get("/my-sale", isLoggedIn, async (req, res) => {
 router.get("/view-details-my-sale/:id", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "client") {
-        // const sale = await pool.query("SELECT * FROM sale WHERE id = ?", [req.params.id]);
-        // const dataClient = await pool.query("SELECT * FROM user WHERE id = ?", [sale[0].id_client]);
-        // const productsSale = await pool.query("SELECT * FROM sale_product WHERE id_sale = ?", [sale[0].id]);
-        // let products = [];
-        // for (let i = 0; i < productsSale.length; i++) {
-        //     const productFromDb = await pool.query("SELECT * FROM product WHERE id = ?", [productsSale[i].id_product]);
-        //     const product = {
-        //         id: productFromDb[0].id,
-        //         id_store: productFromDb[0].id_store,
-        //         name: productFromDb[0].name,
-        //         description: productFromDb[0].description,
-        //         unitPrice: productFromDb[0].price,
-        //         stock: productFromDb[0].stock,
-        //         quantity: productsSale[i].quantity,
-        //         totalPrice: productsSale[i].price,
-        //     };
-        //     products.push(product);
-        // }
-        // res.render("pages/client/view-details-my-sale", { sale: sale[0], products, client: dataClient[0] });
         res.render("pages/client/view-details-my-sale", { idSale: req.params.id });
     } else {
         res.redirect("/profile");
