@@ -242,12 +242,23 @@ router.get("/statistics", isLoggedIn, async (req, res) => {
     }
 });
 
-router.get("/get-statistics", isLoggedIn, async (req, res) => {
+router.get("/get-statistics-client-more-sales", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "store") {
         const clientMoreSales = await pool.query("SELECT sale.id_client, user.name name_client, COUNT(*) quantity FROM sale JOIN user ON sale.id_client = user.id WHERE id_store = ? GROUP BY sale.id_client", [req.user.id])
         console.log(clientMoreSales);
         res.status(200).json(clientMoreSales);
+    } else {
+        res.redirect("/profile");
+    }
+});
+
+router.get("/get-statistics-neighborhood-more-sales", isLoggedIn, async (req, res) => {
+    const { role } = req.user;
+    if (role === "store") {
+        const neighborhoodMoreSales = await pool.query("SELECT user.neighborhood name_neighborhood, COUNT(user.neighborhood) quantity FROM sale JOIN user ON sale.id_client = user.id WHERE id_store = ? GROUP BY user.neighborhood ORDER BY quantity DESC", [req.user.id]);
+        console.log(neighborhoodMoreSales);
+        res.status(200).json(neighborhoodMoreSales);
     } else {
         res.redirect("/profile");
     }
