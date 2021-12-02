@@ -1,5 +1,5 @@
-const URL_PRODUCTS = "/my-sales";
-fetch(URL_PRODUCTS)
+const URL_MY_SALES = "/my-sales";
+fetch(URL_MY_SALES)
     .then((response) => response.json())
     .then((sales) => {
         let tbody = document.getElementById("rows");

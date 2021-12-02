@@ -172,8 +172,17 @@ router.post("/delete-product/:id", isLoggedIn, async (req, res) => {
 router.get("/show-sales", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "store") {
+        res.render("pages/store/show-sales");
+    } else {
+        res.redirect("/profile");
+    }
+});
+
+router.get("/get-sales", isLoggedIn, async (req, res) => {
+    const { role } = req.user;
+    if (role === "store") {
         const sales = await pool.query("SELECT * FROM sale WHERE id_store = ?", [req.user.id]);
-        res.render("pages/store/show-sales", { sales });
+        res.status(200).json(sales);
     } else {
         res.redirect("/profile");
     }
@@ -210,12 +219,18 @@ router.post("/acept-sale/:idSale", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "store") {
         const { idSale } = req.params;
-        await pool.query("UPDATE sale SET state = ? WHERE id = ?", [1, idSale]);
+        await pool.query("UPDATE sale SET status = ? WHERE id = ?", [1, idSale]);
+        const saleQuantities = await pool.query("SELECT id_product, quantity FROM sale_product WHERE id_sale = ?", [
+            idSale,
+        ]);
+        for (let data of saleQuantities) {
+            await pool.query("UPDATE product SET stock = stock - ? WHERE id = ?", [data.quantity, data.id_product]);
+        }
         req.flash("success", "Venta aceptada");
         res.redirect("/view-details-sale/" + idSale);
     } else {
         res.redirect("/profile");
     }
-})
+});
 
 module.exports = router;

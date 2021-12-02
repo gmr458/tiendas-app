@@ -12,7 +12,7 @@ if (localStorage.getItem("role") === "client") {
     if (document.querySelector("#navItemShowStores")) {
         document.querySelector("#navItemShowStores").remove();
     }
-    if (document.querySelector("#navItemMySale")) {
-        document.querySelector("#navItemMySale").remove();
+    if (document.querySelector("#navItemViewMySales")) {
+        document.querySelector("#navItemViewMySales").remove();
     }
 }

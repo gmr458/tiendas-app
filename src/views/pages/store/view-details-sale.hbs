@@ -8,7 +8,7 @@
                     <h5 class="text-center">Nombre cliente: {{client.name}}</h5>
                     <h5 class="text-center">Barrio: {{client.neighborhood}}</h5>
                     <h5 class="text-center">Dirección cliente: Cl. {{client.street}}, Cra. {{client.avenue}} #{{client.number}}</h5>
-                    <h5 class="text-center" id="state">Estado: {{sale.state}}</h5>
+                    <h5 class="text-center" id="status">Estado: {{sale.status}}</h5>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover m-0 text-center">
@@ -56,7 +56,7 @@
 </div>
 
 <script>
-    const state = document.getElementById('state');
+    const state = document.getElementById('status');
     if (state.textContent === "Estado: 0") {
         state.textContent = "Sin Aceptar"
     } else {
