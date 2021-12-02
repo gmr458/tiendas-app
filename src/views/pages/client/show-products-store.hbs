@@ -1,25 +1,22 @@
 <div class="container p-4">
     <div class="row">
+        <div class="col mb-3">
+            <div class="card text-center m-auto" style="width: 18rem;">
+                <div class="card-body">
+                    <h4 class="text-center">Productos {{nameStore}}</h4>
+                    <a href="/render-form-sale/{{idStore}}" class="btn btn-primary">Hacer pedido</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         {{#each products}}
             <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                 <div class="card text-center m-auto" style="width: 18rem;">
                     <div class="card-body">
-                        <form action="/create-sale/{{id_store}}/{{id}}" method="post">
-                            <h4 class="card-title">{{name}}</h4>
-                            <h5 class="card-text">Precio: ${{price}}</h5>
-                            <p class="card-text">{{stock}} unidades disponibles</p>
-                            <div class="input-group mb-3">
-                                <input
-                                    type="number"
-                                    name="quantity"
-                                    id="quantity"
-                                    class="form-control text-center"
-                                    placeholder="Ingrese la cantidad"
-                                    required
-                                />
-                            </div>
-                            <button type="submit" class="btn btn-primary">Añadir al carrito</button>
-                        </form>
+                        <h4 class="card-title">{{name}}</h4>
+                        <h5 class="card-text">Precio: ${{price}}</h5>
+                        <p class="card-text">{{stock}} unidades disponibles</p>
                     </div>
                 </div>
             </div>

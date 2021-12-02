@@ -1,0 +1,49 @@
+<div class="container p-4">
+    <div class="row mb-3">
+        <div class="col">
+            <div class="card rounded-3">
+                <div class="card-header">
+                    <h2 class="text-center">Pedido</h2>
+                    <p id="idSale" style="display: none;">{{idSale}}</p>
+                    {{!-- <h4 class="text-center">Precio total pedido ${{sale.total_price}}</h4>
+                    <h5 class="text-center" id="state">Estado: {{sale.state}}</h5> --}}
+                    <h4 class="text-center" id="totalPriceSale"></h4>
+                    <h5 class="text-center" id="stateSale"></h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover m-0 text-center">
+                        <thead>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Precio unitario</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Precio total</th>
+                        </thead>
+                        <tbody id="rows">
+                            {{!-- {{#each products}}
+                                <tr>
+                                    <td>{{name}}</td>
+                                    <td>${{unitPrice}}</td>
+                                    <td>{{quantity}}</td>
+                                    <td>${{totalPrice}}</td>
+                                </tr>
+                            {{else}}
+                                <tr>
+                                    <td colspan="4">
+                                        <h2>No hay productos</h2>
+                                    </td>
+                                </tr>
+                            {{/each}} --}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5 col-md-6 col-sm-8 col-8 mx-auto">
+            {{> messages }}
+        </div>
+    </div>
+</div>
+
+<script src="/js/view-details-my-sale.js"></script>

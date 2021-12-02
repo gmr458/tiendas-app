@@ -19,8 +19,11 @@
                     <li class="nav-item" id="navItemShowStores">
                         <a class="nav-link" id="navLinkShowStores" href="/show-stores">Ver tiendas</a>
                     </li>
-                    <li class="nav-item" id="navItemMySale">
+                    {{!-- <li class="nav-item" id="navItemMySale">
                         <a class="nav-link" id="navLinkMySale" href="/my-sale">Mi pedido</a>
+                    </li> --}}
+                    <li class="nav-item" id="navItemViewMySales">
+                        <a class="nav-link" id="navLinkViewMySales" href="/view-my-sales">Mis pedidos</a>
                     </li>
                     {{!-- Items tienda --}}
                     <li class="nav-item" id="navItemCreateProduct">
@@ -41,10 +44,10 @@
                     </li>
                 {{else}}
                     <li class="nav-item">
-                        <a class="nav-link" href="/login-form">Iniciar sesión</a>
+                        <a class="nav-link" id="navLinkLogin" href="/login-form">Iniciar sesión</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/register-user-form">Registrarse</a>
+                        <a class="nav-link" id="navLinkRegister" href="/register-user-form">Registrarse</a>
                     </li>
                 {{/if }}
             </ul>

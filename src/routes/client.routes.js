@@ -18,7 +18,13 @@ router.get("/show-products-store/:id", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "client") {
         const products = await pool.query("SELECT * FROM product WHERE id_store = ?", [req.params.id]);
-        res.render("pages/client/show-products-store", { products });
+        const nameIdStore = await pool.query("SELECT id, name FROM user WHERE id = ?", [req.params.id]);
+        console.log(nameIdStore);
+        res.render("pages/client/show-products-store", {
+            products,
+            nameStore: nameIdStore[0].name,
+            idStore: nameIdStore[0].id,
+        });
     } else {
         res.redirect("/profile");
     }
@@ -139,6 +145,33 @@ router.post("/save-sale", isLoggedIn, async (req, res) => {
     }
 });
 
+router.get("/view-my-sales", isLoggedIn, async (req, res) => {
+    const { role } = req.user;
+    if (role === "client") {
+        // const sales = await pool.query(
+        //     "SELECT sale.*, user.name store_name FROM sale JOIN user ON sale.id_store = user.id WHERE id_client = ?",
+        //     [req.user.id]
+        // );
+        res.render("pages/client/view-my-sales");
+    } else {
+        res.redirect("/profile");
+    }
+});
+
+router.get("/my-sales", isLoggedIn, async (req, res) => {
+    const { role } = req.user;
+    if (role === "client") {
+        const sales = await pool.query(
+            "SELECT sale.*, user.name store_name FROM sale JOIN user ON sale.id_store = user.id WHERE id_client = ?",
+            [req.user.id]
+        );
+        console.log(sales);
+        return res.status(200).json(sales);
+    } else {
+        res.redirect("/profile");
+    }
+});
+
 router.get("/my-sale", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "client") {
@@ -170,6 +203,64 @@ router.get("/my-sale", isLoggedIn, async (req, res) => {
             req.flash("error", "No tienes ningún pedido pendiente");
             res.redirect("/show-stores");
         }
+    } else {
+        res.redirect("/profile");
+    }
+});
+
+router.get("/view-details-my-sale/:id", isLoggedIn, async (req, res) => {
+    const { role } = req.user;
+    if (role === "client") {
+        // const sale = await pool.query("SELECT * FROM sale WHERE id = ?", [req.params.id]);
+        // const dataClient = await pool.query("SELECT * FROM user WHERE id = ?", [sale[0].id_client]);
+        // const productsSale = await pool.query("SELECT * FROM sale_product WHERE id_sale = ?", [sale[0].id]);
+        // let products = [];
+        // for (let i = 0; i < productsSale.length; i++) {
+        //     const productFromDb = await pool.query("SELECT * FROM product WHERE id = ?", [productsSale[i].id_product]);
+        //     const product = {
+        //         id: productFromDb[0].id,
+        //         id_store: productFromDb[0].id_store,
+        //         name: productFromDb[0].name,
+        //         description: productFromDb[0].description,
+        //         unitPrice: productFromDb[0].price,
+        //         stock: productFromDb[0].stock,
+        //         quantity: productsSale[i].quantity,
+        //         totalPrice: productsSale[i].price,
+        //     };
+        //     products.push(product);
+        // }
+        // res.render("pages/client/view-details-my-sale", { sale: sale[0], products, client: dataClient[0] });
+        res.render("pages/client/view-details-my-sale", { idSale: req.params.id });
+    } else {
+        res.redirect("/profile");
+    }
+});
+
+router.get("/details-my-sale/:id", isLoggedIn, async (req, res) => {
+    const { role } = req.user;
+    if (role === "client") {
+        const sale = await pool.query("SELECT * FROM sale WHERE id = ?", [req.params.id]);
+        const productsSale = await pool.query("SELECT * FROM sale_product WHERE id_sale = ?", [sale[0].id]);
+        let products = [];
+        for (let i = 0; i < productsSale.length; i++) {
+            const productFromDb = await pool.query("SELECT * FROM product WHERE id = ?", [productsSale[i].id_product]);
+            const product = {
+                id: productFromDb[0].id,
+                id_store: productFromDb[0].id_store,
+                name: productFromDb[0].name,
+                description: productFromDb[0].description,
+                unitPrice: productFromDb[0].price,
+                stock: productFromDb[0].stock,
+                quantity: productsSale[i].quantity,
+                totalPrice: productsSale[i].price,
+            };
+            products.push(product);
+        }
+        const detailsSale = {
+            sale: sale[0],
+            products
+        }
+        res.status(200).json(detailsSale);
     } else {
         res.redirect("/profile");
     }
