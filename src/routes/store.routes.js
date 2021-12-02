@@ -264,4 +264,15 @@ router.get("/get-statistics-neighborhood-more-sales", isLoggedIn, async (req, re
     }
 });
 
+router.get("/get-statistics-client-more-money", isLoggedIn, async (req, res) => {
+    const { role } = req.user;
+    if (role === "store") {
+        const clientMoreMoney = await pool.query("SELECT sale.id_client, user.name name_client, SUM(total_price) money FROM sale JOIN user ON sale.id_client = user.id WHERE id_store = ? GROUP BY sale.id_client ORDER BY money DESC", [req.user.id])
+        console.log(clientMoreMoney);
+        res.status(200).json(clientMoreMoney);
+    } else {
+        res.redirect("/profile");
+    }
+});
+
 module.exports = router;

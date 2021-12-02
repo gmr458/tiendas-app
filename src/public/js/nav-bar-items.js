@@ -8,6 +8,9 @@ if (localStorage.getItem("role") === "client") {
     if (document.querySelector("#navItemShowOrders")) {
         document.querySelector("#navItemShowOrders").remove();
     }
+    if (document.querySelector("#navItemStatistics")) {
+        document.querySelector("#navItemStatistics").remove();
+    }
 } else {
     if (document.querySelector("#navItemShowStores")) {
         document.querySelector("#navItemShowStores").remove();
