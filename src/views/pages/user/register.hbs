@@ -45,15 +45,15 @@
                         <hr />
                         <label class="label-form mb-2">Datos de ubicación:</label>
                         <div class="input-group mb-3">
-                            <input
-                                type="text"
+                            <select
+                                class="form-select"
+                                aria-label="Default select example"
                                 name="neighborhood"
                                 id="neighborhood"
-                                placeholder="Barrio"
-                                class="form-control"
-                                value="{{neighborhood}}"
                                 required
-                            />
+                            >
+                                <option selected>Selecciona el barrio donde vives</option>
+                            </select>
                         </div>
                         <div class="input-group mb-3">
                             <div class="row">
