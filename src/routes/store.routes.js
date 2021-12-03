@@ -233,4 +233,24 @@ router.post("/acept-sale/:idSale", isLoggedIn, async (req, res) => {
     }
 });
 
+router.get("/statistics", isLoggedIn, async (req, res) => {
+    const { role } = req.user;
+    if (role === "store") {
+        res.render("pages/store/statistics");
+    } else {
+        res.redirect("/profile");
+    }
+});
+
+router.get("/get-statistics", isLoggedIn, async (req, res) => {
+    const { role } = req.user;
+    if (role === "store") {
+        const clientMoreSales = await pool.query("SELECT sale.id_client, user.name name_client, COUNT(*) quantity FROM sale JOIN user ON sale.id_client = user.id WHERE id_store = ? GROUP BY sale.id_client", [req.user.id])
+        console.log(clientMoreSales);
+        res.status(200).json(clientMoreSales);
+    } else {
+        res.redirect("/profile");
+    }
+});
+
 module.exports = router;
