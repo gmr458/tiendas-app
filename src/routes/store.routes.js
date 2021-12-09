@@ -79,6 +79,16 @@ router.get("/show-products", isLoggedIn, async (req, res) => {
     }
 });
 
+router.get("/get-products", isLoggedIn, async (req, res) => {
+    const { role } = req.user;
+    if (role === "store") {
+        const products = await pool.query("SELECT * FROM product WHERE id_store = ?", [req.user.id]);
+        res.status(200).json(products);
+    } else {
+        res.redirect("/profile");
+    }
+});
+
 router.get("/edit-product-form/:id", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     const id_store = req.user.id;
@@ -169,6 +179,14 @@ router.post("/delete-product/:id", isLoggedIn, async (req, res) => {
     res.redirect("/show-products");
 });
 
+router.post("/disable-product/:id", isLoggedIn, async (req, res) => {
+    const { id } = req.params;
+    const id_store = req.user.id;
+    await pool.query("UPDATE product SET status = ? WHERE id = ? AND id_store = ?", [id, id_store]);
+    req.flash("success", "Producto eliminado");
+    res.redirect("/show-products");
+});
+
 router.get("/show-sales", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "store") {
@@ -209,7 +227,11 @@ router.get("/view-details-sale/:id", isLoggedIn, async (req, res) => {
             };
             products.push(product);
         }
-        res.render("pages/store/view-details-sale", { sale: sale[0], products, client: dataClient[0] });
+        res.render("pages/store/view-details-sale", {
+            sale: sale[0],
+            products,
+            client: dataClient[0],
+        });
     } else {
         res.redirect("/profile");
     }
@@ -245,7 +267,10 @@ router.get("/statistics", isLoggedIn, async (req, res) => {
 router.get("/get-statistics-client-more-sales", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "store") {
-        const clientMoreSales = await pool.query("SELECT sale.id_client, user.name name_client, COUNT(*) quantity FROM sale JOIN user ON sale.id_client = user.id WHERE id_store = ? GROUP BY sale.id_client", [req.user.id])
+        const clientMoreSales = await pool.query(
+            "SELECT sale.id_client, user.name name_client, COUNT(*) quantity FROM sale JOIN user ON sale.id_client = user.id WHERE id_store = ? GROUP BY sale.id_client",
+            [req.user.id]
+        );
         console.log(clientMoreSales);
         res.status(200).json(clientMoreSales);
     } else {
@@ -256,7 +281,10 @@ router.get("/get-statistics-client-more-sales", isLoggedIn, async (req, res) => 
 router.get("/get-statistics-neighborhood-more-sales", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "store") {
-        const neighborhoodMoreSales = await pool.query("SELECT user.neighborhood name_neighborhood, COUNT(user.neighborhood) quantity FROM sale JOIN user ON sale.id_client = user.id WHERE id_store = ? GROUP BY user.neighborhood ORDER BY quantity DESC", [req.user.id]);
+        const neighborhoodMoreSales = await pool.query(
+            "SELECT user.neighborhood name_neighborhood, COUNT(user.neighborhood) quantity FROM sale JOIN user ON sale.id_client = user.id WHERE id_store = ? GROUP BY user.neighborhood ORDER BY quantity DESC",
+            [req.user.id]
+        );
         console.log(neighborhoodMoreSales);
         res.status(200).json(neighborhoodMoreSales);
     } else {
@@ -267,9 +295,28 @@ router.get("/get-statistics-neighborhood-more-sales", isLoggedIn, async (req, re
 router.get("/get-statistics-client-more-money", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "store") {
-        const clientMoreMoney = await pool.query("SELECT sale.id_client, user.name name_client, SUM(total_price) money FROM sale JOIN user ON sale.id_client = user.id WHERE id_store = ? GROUP BY sale.id_client ORDER BY money DESC", [req.user.id])
+        const clientMoreMoney = await pool.query(
+            "SELECT sale.id_client, user.name name_client, SUM(total_price) money FROM sale JOIN user ON sale.id_client = user.id WHERE id_store = ? GROUP BY sale.id_client ORDER BY money DESC",
+            [req.user.id]
+        );
         console.log(clientMoreMoney);
         res.status(200).json(clientMoreMoney);
+    } else {
+        res.redirect("/profile");
+    }
+});
+
+router.put("/change-status-product/:id", isLoggedIn, async (req, res) => {
+    const { role } = req.user;
+    if (role === "store") {
+        const result = await pool.query("SELECT status FROM product WHERE id = ?", [req.params.id]);
+        const actualStatus = result[0].status;
+        let newStatus = 0;
+        if (actualStatus === 0) {
+            newStatus = 1;
+        }
+        await pool.query("UPDATE product SET status = ? WHERE id = ?", [newStatus, req.params.id]);
+        res.status(200).json({});
     } else {
         res.redirect("/profile");
     }
