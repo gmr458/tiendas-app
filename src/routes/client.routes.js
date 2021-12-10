@@ -101,7 +101,7 @@ router.get("/all-products/:idStore", isLoggedIn, async (req, res) => {
     const { role } = req.user;
     if (role === "client") {
         const { idStore } = req.params;
-        const products = await pool.query("SELECT * FROM product WHERE id_store = ?", [idStore]);
+        const products = await pool.query("SELECT * FROM product WHERE id_store = ? AND status = 1", [idStore]);
         res.status(200).json(products);
     } else {
         res.redirect("/profile");
