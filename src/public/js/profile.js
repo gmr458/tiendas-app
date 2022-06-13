@@ -7,5 +7,5 @@ if (role.value === "client") {
     role.value = "Tienda";
 }
 
-let link = document.querySelector('#navLinkProfile');
-link.classList.add('active');
+let link = document.querySelector("#navLinkProfile");
+link.classList.add("active");

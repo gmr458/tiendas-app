@@ -11,8 +11,19 @@ router.get("/register-user-form", (req, res) => {
 });
 
 router.post("/register-user", hideLoginAndRegister, async (req, res) => {
-    const { name, email, password, neighborhood, street, avenue, number, role } = req.body;
-    const existsEmail = await pool.query("SELECT * FROM user WHERE email = ?", [email]);
+    const {
+        name,
+        email,
+        password,
+        neighborhood,
+        street,
+        avenue,
+        number,
+        role,
+    } = req.body;
+    const existsEmail = await pool.query("SELECT * FROM user WHERE email = ?", [
+        email,
+    ]);
     if (existsEmail.length > 0) {
         return res.render("pages/user/register", {
             name,
@@ -41,7 +52,7 @@ router.post("/register-user", hideLoginAndRegister, async (req, res) => {
     }
     const existsAddress = await pool.query(
         "SELECT * FROM user WHERE neighborhood = ? AND street = ? AND avenue = ? AND number = ?",
-        [neighborhood, street, avenue, number]
+        [neighborhood, street, avenue, number],
     );
     if (existsAddress.length > 0) {
         return res.render("pages/user/register", {
@@ -82,7 +93,7 @@ router.post(
         successRedirect: "/profile",
         failureRedirect: "/login-form",
         failureFlash: true,
-    })
+    }),
 );
 
 router.get("/logout", isLoggedIn, (req, res) => {

@@ -51,7 +51,7 @@ app.engine(
         layoutsDir: path.join(dirViews, "layout"),
         partialsDir: path.join(dirViews, "partials"),
         extname: ".hbs",
-    })
+    }),
 );
 app.set("view engine", ".hbs");
 
@@ -65,7 +65,7 @@ app.use(
         resave: false,
         saveUninitialized: false,
         store: sessionStore,
-    })
+    }),
 );
 app.use(connectFlash());
 app.use(passport.initialize());
@@ -87,8 +87,16 @@ app.use(clientRoutes);
 
 // Public
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "../node_modules/bootstrap/dist/css")));
-app.use(express.static(path.join(__dirname, "../node_modules/bootstrap/dist/js")));
-app.use(express.static(path.join(__dirname, "../node_modules/bootstrap-icons/font")));
+app.use(
+    express.static(path.join(__dirname, "../node_modules/bootstrap/dist/css")),
+);
+app.use(
+    express.static(path.join(__dirname, "../node_modules/bootstrap/dist/js")),
+);
+app.use(
+    express.static(
+        path.join(__dirname, "../node_modules/bootstrap-icons/font"),
+    ),
+);
 
 module.exports = app;

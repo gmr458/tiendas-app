@@ -1,2 +1,2 @@
-let link = document.querySelector('#navLinkShowOrders');
-link.classList.add('active');
+let link = document.querySelector("#navLinkShowOrders");
+link.classList.add("active");

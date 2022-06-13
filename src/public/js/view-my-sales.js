@@ -28,7 +28,9 @@ fetch(URL_MY_SALES)
             tdStatus.appendChild(textStatus);
 
             let tdCreatedAt = document.createElement("td");
-            let textCreatedAt = document.createTextNode(new Date(sale.created_at).toLocaleString());
+            let textCreatedAt = document.createTextNode(
+                new Date(sale.created_at).toLocaleString(),
+            );
             tdCreatedAt.appendChild(textCreatedAt);
 
             let tdMoreDetails = document.createElement("td");

@@ -11,32 +11,34 @@ passport.use(
             passReqToCallback: true,
         },
         async (req, email, password, done) => {
-            const rows = await pool.query("SELECT * FROM user WHERE email = ?", [email]);
+            const rows = await pool.query(
+                "SELECT * FROM user WHERE email = ?",
+                [email],
+            );
             if (rows.length > 0) {
                 const user = rows[0];
-                const passwordIsCorrect = await bcrypt.compareSync(password, user.password);
+                const passwordIsCorrect = await bcrypt.compareSync(
+                    password,
+                    user.password,
+                );
                 if (passwordIsCorrect) {
-                    done(
-                        null,
-                        user,
-                        user
-                    );
+                    done(null, user, user);
                 } else {
                     done(
                         null,
                         false,
-                        req.flash("warning", "Contraseña incorrecta")
+                        req.flash("warning", "Contraseña incorrecta"),
                     );
                 }
             } else {
                 done(
                     null,
                     false,
-                    req.flash("warning", "No existe un usuario con ese email")
+                    req.flash("warning", "No existe un usuario con ese email"),
                 );
             }
-        }
-    )
+        },
+    ),
 );
 
 passport.serializeUser((user, done) => {

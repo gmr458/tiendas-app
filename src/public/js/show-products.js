@@ -34,7 +34,12 @@ fetch("/get-products")
             let tdStatus = document.createElement("td");
 
             let divStatus = document.createElement("div");
-            divStatus.classList.add("form-check", "form-switch", "d-flex", "justify-content-center");
+            divStatus.classList.add(
+                "form-check",
+                "form-switch",
+                "d-flex",
+                "justify-content-center",
+            );
             tdStatus.appendChild(divStatus);
 
             let inputCheckSwitcStatus = document.createElement("input");
@@ -47,7 +52,9 @@ fetch("/get-products")
                 inputCheckSwitcStatus.checked = false;
             }
             inputCheckSwitcStatus.onclick = () => {
-                fetch(`/change-status-product/${product.id}`, { method: "PUT" }).then((response) => {
+                fetch(`/change-status-product/${product.id}`, {
+                    method: "PUT",
+                }).then((response) => {
                     if (response.status === 200) {
                         console.log("Status changed");
                     } else {

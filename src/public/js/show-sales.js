@@ -23,7 +23,9 @@ fetch(URL_SALES)
 
             let h5TotalPrice = document.createElement("h5");
             h5TotalPrice.classList.add("card-text");
-            let h5TotalPriceText = document.createTextNode(`Precio total: $${sale.total_price}`);
+            let h5TotalPriceText = document.createTextNode(
+                `Precio total: $${sale.total_price}`,
+            );
             h5TotalPrice.appendChild(h5TotalPriceText);
 
             let pStatus = document.createElement("p");

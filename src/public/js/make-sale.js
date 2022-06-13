@@ -87,11 +87,15 @@ function fullListSale() {
         buttonDelete.onclick = () => {
             document.getElementById(`row-${product.id}`).remove();
             let productsSale = JSON.parse(localStorage.getItem("listSale"));
-            let newProductsSale = productsSale.filter((productSale) => productSale.id !== product.id);
+            let newProductsSale = productsSale.filter(
+                (productSale) => productSale.id !== product.id,
+            );
             localStorage.setItem("listSale", JSON.stringify(newProductsSale));
             let totalPriceSale = document.getElementById("totalPrice");
-            totalPriceSale.value = parseFloat(totalPriceSale.value) - product.totalPrice;
-            document.getElementById(`product-${product.id}`).style.display = "contents";
+            totalPriceSale.value =
+                parseFloat(totalPriceSale.value) - product.totalPrice;
+            document.getElementById(`product-${product.id}`).style.display =
+                "contents";
         };
         let textButtonDelete = document.createTextNode("Eliminar");
         buttonDelete.appendChild(textButtonDelete);

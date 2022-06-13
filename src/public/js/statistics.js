@@ -19,7 +19,7 @@ fetch("/get-statistics-client-more-sales")
 
                 let tdClientName = document.createElement("td");
                 let textClientName = document.createTextNode(
-                    client.name_client
+                    client.name_client,
                 );
                 tdClientName.appendChild(textClientName);
 
@@ -42,7 +42,7 @@ fetch("/get-statistics-client-more-sales")
             tdMessage.setAttribute("colspan", "3");
             let h4Message = document.createElement("h4");
             let textMessage = document.createTextNode(
-                "No hay datos suficientes para generar estadísticas"
+                "No hay datos suficientes para generar estadísticas",
             );
             h4Message.appendChild(textMessage);
             tdMessage.appendChild(h4Message);
@@ -71,13 +71,13 @@ fetch("/get-statistics-neighborhood-more-sales")
 
                 let tdNeighborhoodName = document.createElement("td");
                 let textNeighborhoodName = document.createTextNode(
-                    neighborhood.name_neighborhood
+                    neighborhood.name_neighborhood,
                 );
                 tdNeighborhoodName.appendChild(textNeighborhoodName);
 
                 let tdQuantity = document.createElement("td");
                 let textQuantity = document.createTextNode(
-                    neighborhood.quantity
+                    neighborhood.quantity,
                 );
                 tdQuantity.appendChild(textQuantity);
 
@@ -96,7 +96,7 @@ fetch("/get-statistics-neighborhood-more-sales")
             tdMessage.setAttribute("colspan", "3");
             let h4Message = document.createElement("h4");
             let textMessage = document.createTextNode(
-                "No hay datos suficientes para generar estadísticas"
+                "No hay datos suficientes para generar estadísticas",
             );
             h4Message.appendChild(textMessage);
             tdMessage.appendChild(h4Message);
@@ -125,7 +125,7 @@ fetch("/get-statistics-client-more-money")
 
                 let tdClientName = document.createElement("td");
                 let textClientName = document.createTextNode(
-                    client.name_client
+                    client.name_client,
                 );
                 tdClientName.appendChild(textClientName);
 
@@ -148,7 +148,7 @@ fetch("/get-statistics-client-more-money")
             tdMessage.setAttribute("colspan", "3");
             let h4Message = document.createElement("h4");
             let textMessage = document.createTextNode(
-                "No hay datos suficientes para generar estadísticas"
+                "No hay datos suficientes para generar estadísticas",
             );
             h4Message.appendChild(textMessage);
             tdMessage.appendChild(h4Message);
